@@ -44,3 +44,20 @@ body {
 .card-text{
     text-align: justify;
 }
+
+.about-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+  }
+  .team-section {
+    background-color: #ffffff;
+    padding: 60px 0;
+  }
+
+  .contact-section {
+    padding: 60px 0;
+  }
+  .map-container {
+    height: 400px;
+    width: 100%;
+  }
