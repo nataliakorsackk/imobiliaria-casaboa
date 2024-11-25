@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+    <form id="formCadastro">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" placeholder="Seu nome" required>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" placeholder="Seu e-mail" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" placeholder="Senha" required>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" placeholder="Seu telefone">
+
+        <label for="tipoUsuario">Tipo de Usuário:</label>
+        <select id="tipoUsuario" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="adm">Administrador</option>
+            <option value="usuario">Usuário Comum</option>
+        </select>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <p>Já possui uma conta? <a href="login.html">Clique aqui para fazer login</a></p>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api/cadastro'; // URL da API
+
+        document.getElementById('formCadastro').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const telefone = document.getElementById('telefone').value;
+            const tipoUsuario = document.getElementById('tipoUsuario').value;
+
+            fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, email, senha, telefone, tipoUsuario }),
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                alert(data.message || 'Cadastro realizado com sucesso!');
+                if (data.success) {
+                    window.location.href = 'login.html'; // Redireciona para o login
+                }
+            })
+            .catch((error) => console.error('Erro:', error));
+        });
+    </script>
+</body>
+</html>
