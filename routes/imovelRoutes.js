@@ -1,39 +1,15 @@
 const express = require('express');
-const { verificarToken } = require('../middlewares/authMiddleware');
-const {
-    cadastrarPropriedade,
-    editarPropriedade,
-    excluirPropriedade,
-    exibirPropriedades
-} = require('../controllers/imovelController');
-
 const router = express.Router();
+const { verificarToken } = require('../controllers/authController'); // Importa o middleware de verificação de token
+const { cadastrarImovel, editarImovel, excluirImovel } = require('../controllers/imovelController');
 
-// Rota para cadastrar imóvel (admin)
-router.post('/cadastrar-propriedade', verificarToken, (req, res) => {
-    if (req.user.tipoUsuario !== 'administrador') {
-        return res.status(403).json({ success: false, message: 'Acesso negado.' });
-    }
-    cadastrarPropriedade(req, res);
-});
+// Rota para cadastrar imóvel
+router.post('/cadastrar', verificarToken, cadastrarImovel);
 
-// Rota para editar imóvel (admin)
-router.put('/editar-propriedade', verificarToken, (req, res) => {
-    if (req.user.tipoUsuario !== 'administrador') {
-        return res.status(403).json({ success: false, message: 'Acesso negado.' });
-    }
-    editarPropriedade(req, res);
-});
+// Rota para editar imóvel
+router.put('/editar/:id', verificarToken, editarImovel);
 
-// Rota para excluir imóvel (admin)
-router.delete('/excluir-propriedade/:id_imovel', verificarToken, (req, res) => {
-    if (req.user.tipoUsuario !== 'administrador') {
-        return res.status(403).json({ success: false, message: 'Acesso negado.' });
-    }
-    excluirPropriedade(req, res);
-});
-
-// Rota para exibir propriedades (pode ser acessada por qualquer usuário)
-router.get('/propriedades', exibirPropriedades);
+// Rota para excluir imóvel
+router.delete('/excluir/:id', verificarToken, excluirImovel);
 
 module.exports = router;

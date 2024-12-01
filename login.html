@@ -19,38 +19,34 @@
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+            e.preventDefault();
 
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
 
-    try {
-        const response = await fetch('http://localhost:3001/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, senha })
+            try {
+                const response = await fetch('http://localhost:3001/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('message').innerText = data.message;
+                    localStorage.setItem('token', data.token); // Armazena o token no localStorage
+
+                    // Redireciona para a URL recebida do backend (pode ser 'adm.html' ou outra página)
+                    window.location.href = data.redirectUrl; 
+                } else {
+                    document.getElementById('message').innerText = 'Erro: ' + data.message;
+                }
+            } catch (error) {
+                document.getElementById('message').innerText = 'Erro na requisição: ' + error.message;
+            }
         });
-
-        const data = await response.json();
-        if (data.success) {
-            document.getElementById('message').innerText = data.message;
-            localStorage.setItem('token', data.token); // Armazena o token no localStorage
-
-            // Verifica se a URL de redirecionamento está correta
-            console.log('Redirect URL:', data.redirectUrl); // Verifique no console se a URL é válida
-
-            // Redireciona usando o link recebido do backend
-            window.location.href = data.redirectUrl; // Usa o link de redirecionamento retornado
-        } else {
-            document.getElementById('message').innerText = 'Erro: ' + data.message;
-        }
-    } catch (error) {
-        document.getElementById('message').innerText = 'Erro na requisição: ' + error.message;
-    }
-});
-
     </script>
 </body>
 </html>

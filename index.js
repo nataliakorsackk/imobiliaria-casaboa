@@ -18,11 +18,12 @@ app.get('/', (req, res) => {
     res.send('API de Cadastro e Login funcionando!');
 });
 
-// Usar as rotas do arquivo userRoutes.js
+// Usar as rotas de usuários
 app.use('/api', userRoutes);
 
 // Usar as rotas de imóveis
 app.use('/api/imoveis', imovelRoutes);
+
 
 // Inicializa o servidor
 app.listen(PORT, () => {
