@@ -1,19 +1,16 @@
-// routes/userRoutes.js
-
 const express = require('express');
-const { cadastrarUsuario, loginUsuario, verificarToken } = require('../controllers/userController');
-
 const router = express.Router();
+const userController = require('../controllers/userController');
 
 // Rota para cadastro de usuário
-router.post('/cadastro', cadastrarUsuario);
+router.post('/cadastrar', userController.cadastrarUsuario);
 
-// Rota de login
-router.post('/login', loginUsuario);
+// Rota para login de usuário
+router.post('/login', userController.loginUsuario);
 
-// Rota protegida
-router.get('/perfil', verificarToken, (req, res) => {
-    res.json({ success: true, message: 'Acesso autorizado ao perfil!', user: req.user });
+// Rota para verificar token (protege rotas que precisam de autenticação)
+router.get('/verificar-token', userController.verificarToken, (req, res) => {
+    res.json({ success: true, message: 'Token válido.', user: req.user });
 });
 
 module.exports = router;

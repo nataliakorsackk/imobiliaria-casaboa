@@ -23,7 +23,7 @@
         <label for="tipoUsuario">Tipo de Usuário:</label>
         <select id="tipoUsuario" required>
             <option value="" disabled selected>Selecione</option>
-            <option value="adm">Administrador</option>
+            <option value="administrador">Administrador</option>
             <option value="usuario">Usuário Comum</option>
         </select>
 
@@ -33,7 +33,8 @@
     <p>Já possui uma conta? <a href="login.html">Clique aqui para fazer login</a></p>
 
     <script>
-        const API_URL = 'http://localhost:3001/api/cadastro'; // URL da API
+        const API_URL = 'http://localhost:3001/api/cadastrar'; // Alterado para a URL correta
+
 
         document.getElementById('formCadastro').addEventListener('submit', function (e) {
             e.preventDefault();

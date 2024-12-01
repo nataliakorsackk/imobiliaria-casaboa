@@ -1,10 +1,10 @@
-// controllers/userController.js
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const db = require('../config/db'); // Importa a conexão com o banco
+
 const secretKey = 'seu-segredo'; // Defina uma chave secreta para o JWT
 
-
-
+// Cadastrar usuário
 const cadastrarUsuario = (req, res) => {
     const { nome, email, senha, telefone, tipoUsuario } = req.body;
 
@@ -24,22 +24,6 @@ const cadastrarUsuario = (req, res) => {
     });
 };
 
-const verificarToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'Token de autenticação ausente.' });
-    }
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        req.user = decoded; // Salva as informações do usuário no request
-        next();
-    } catch (err) {
-        return res.status(401).json({ success: false, message: 'Token inválido.' });
-    }
-};
-
-const bcrypt = require('bcryptjs');
-
 const loginUsuario = (req, res) => {
     const { email, senha } = req.body;
 
@@ -50,15 +34,22 @@ const loginUsuario = (req, res) => {
         }
 
         if (result.length > 0) {
-            // Verificando a senha usando bcrypt
+            // Verifica se a senha é válida
             bcrypt.compare(senha, result[0].senha, (err, isMatch) => {
                 if (err) {
                     return res.status(500).json({ success: false, message: 'Erro ao comparar a senha.' });
                 }
 
                 if (isMatch) {
-                    const token = jwt.sign({ id: result[0].id_cliente, email: result[0].email }, secretKey, { expiresIn: '1h' });
-                    return res.json({ success: true, message: 'Login bem-sucedido!', token });
+                    const token = jwt.sign({ id: result[0].id_cliente, email: result[0].email, tipoUsuario: result[0].tipo_usuario }, secretKey, { expiresIn: '1h' });
+                    
+                    // Redireciona baseado no tipo de usuário
+                    let redirectUrl = 'home.html';  // URL padrão para usuários comuns
+                    if (result[0].tipo_usuario === 'administrador') {
+                        redirectUrl = 'adm.html';  // URL para administradores
+                    }
+
+                    return res.json({ success: true, message: 'Login bem-sucedido!', token, redirectUrl });
                 } else {
                     return res.status(401).json({ success: false, message: 'Credenciais inválidas.' });
                 }
@@ -69,5 +60,21 @@ const loginUsuario = (req, res) => {
     });
 };
 
+// Verificar token
+const verificarToken = (req, res, next) => {
+    const token = req.headers['authorization'];
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Token de autenticação ausente.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        return res.status(401).json({ success: false, message: 'Token inválido.' });
+    }
+};
 
 module.exports = { cadastrarUsuario, loginUsuario, verificarToken };

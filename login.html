@@ -4,137 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-   <style>
-    /* Estilos para o layout de login */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-.login-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-}
-
-h2 {
-    margin-bottom: 20px;
-}
-
-.input-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-   </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" required placeholder="Digite seu e-mail">
-            </div>
-            <div class="input-group">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" required placeholder="Digite sua senha">
-            </div>
-            <button type="submit">Entrar</button>
-        </form>
-        <p id="error-message" class="error-message"></p>
-    </div>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required><br><br>
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="message"></div>
 
     <script>
-        // Obtendo os elementos do formulário
-const loginForm = document.getElementById('loginForm');
-const emailInput = document.getElementById('email');
-const senhaInput = document.getElementById('senha');
-const errorMessage = document.getElementById('error-message');
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-// Função para fazer a requisição de login
-loginForm.addEventListener('submit', function (event) {
-    event.preventDefault();  // Impede o envio do formulário padrão
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
 
-    const email = emailInput.value;
-    const senha = senhaInput.value;
+    try {
+        const response = await fetch('http://localhost:3001/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, senha })
+        });
 
-    // Limpar mensagem de erro
-    errorMessage.textContent = '';
-
-    // Validar campos
-    if (!email || !senha) {
-        errorMessage.textContent = 'Por favor, preencha todos os campos.';
-        return;
-    }
-
-    // Fazer a requisição POST para o backend
-    fetch('http://localhost:3001/api/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, senha })
-    })
-    .then(response => response.json())
-    .then(data => {
+        const data = await response.json();
         if (data.success) {
-            // Salvar o token JWT no localStorage
-            localStorage.setItem('authToken', data.token);
-            
-            // Redirecionar conforme o tipo de usuário
-            const tipoUsuario = data.tipo_usuario;
-            if (tipoUsuario === 'usuario') {
-                window.location.href = 'home.html';  // Página do usuário
-            } else if (tipoUsuario === 'administrador') {
-                window.location.href = 'adm.html';  // Página do administrador
-            } else {
-                errorMessage.textContent = 'Tipo de usuário inválido.';
-            }
+            document.getElementById('message').innerText = data.message;
+            localStorage.setItem('token', data.token); // Armazena o token no localStorage
+
+            // Verifica se a URL de redirecionamento está correta
+            console.log('Redirect URL:', data.redirectUrl); // Verifique no console se a URL é válida
+
+            // Redireciona usando o link recebido do backend
+            window.location.href = data.redirectUrl; // Usa o link de redirecionamento retornado
         } else {
-            errorMessage.textContent = data.message;
+            document.getElementById('message').innerText = 'Erro: ' + data.message;
         }
-    })
-    .catch(err => {
-        errorMessage.textContent = 'Erro ao tentar fazer login. Tente novamente.';
-        console.error('Erro:', err);
-    });
+    } catch (error) {
+        document.getElementById('message').innerText = 'Erro na requisição: ' + error.message;
+    }
 });
 
     </script>
