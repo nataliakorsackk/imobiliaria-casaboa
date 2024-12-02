@@ -1,44 +1,56 @@
-// controllers/imovelController.js
-const db = require('../config/db');
+const Imovel = require('../models/imovelModels');
 
-// Função para cadastrar imóvel
-const cadastrarImovel = (req, res) => {
-    const { endereco, descricao, num_comodos } = req.body;
-    const query = 'INSERT INTO imoveis (endereco, descricao, num_comodos) VALUES (?, ?, ?)';
-    db.query(query, [endereco, descricao, num_comodos], (err, result) => {
-        if (err) {
-            console.error('Erro ao cadastrar imóvel:', err);
-            return res.status(500).json({ message: 'Erro ao cadastrar imóvel' });
-        }
+const cadastrarImovel = async (req, res) => {
+    try {
+        const { endereco, descricao, num_comodos } = req.body;
+        const id_cliente = req.user.id; // ID do usuário logado
+
+        await Imovel.create({ endereco, descricao, num_comodos, id_cliente });
         res.status(201).json({ message: 'Imóvel cadastrado com sucesso!' });
-    });
+    } catch (error) {
+        console.error('Erro ao cadastrar imóvel:', error);
+        res.status(500).json({ message: 'Erro ao cadastrar imóvel' });
+    }
 };
 
-// Função para editar imóvel
-const editarImovel = (req, res) => {
-    const { id } = req.params;
-    const { endereco, descricao, num_comodos } = req.body;
-    const query = 'UPDATE imoveis SET endereco = ?, descricao = ?, num_comodos = ? WHERE id = ?';
-    db.query(query, [endereco, descricao, num_comodos, id], (err, result) => {
-        if (err) {
-            console.error('Erro ao editar imóvel:', err);
-            return res.status(500).json({ message: 'Erro ao editar imóvel' });
+const editarImovel = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { endereco, descricao, num_comodos } = req.body;
+        const id_cliente = req.user.id;
+
+        const [updated] = await Imovel.update(
+            { endereco, descricao, num_comodos },
+            { where: { id, id_cliente } }
+        );
+
+        if (updated) {
+            return res.status(200).json({ message: 'Imóvel atualizado com sucesso!' });
         }
-        res.status(200).json({ message: 'Imóvel atualizado com sucesso!' });
-    });
+
+        res.status(403).json({ message: 'Você não tem permissão para editar este imóvel.' });
+    } catch (error) {
+        console.error('Erro ao editar imóvel:', error);
+        res.status(500).json({ message: 'Erro ao editar imóvel' });
+    }
 };
 
-// Função para excluir imóvel
-const excluirImovel = (req, res) => {
-    const { id } = req.params;
-    const query = 'DELETE FROM imoveis WHERE id = ?';
-    db.query(query, [id], (err, result) => {
-        if (err) {
-            console.error('Erro ao excluir imóvel:', err);
-            return res.status(500).json({ message: 'Erro ao excluir imóvel' });
+const excluirImovel = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const id_cliente = req.user.id;
+
+        const deleted = await Imovel.destroy({ where: { id, id_cliente } });
+
+        if (deleted) {
+            return res.status(200).json({ message: 'Imóvel excluído com sucesso!' });
         }
-        res.status(200).json({ message: 'Imóvel excluído com sucesso!' });
-    });
+
+        res.status(403).json({ message: 'Você não tem permissão para excluir este imóvel.' });
+    } catch (error) {
+        console.error('Erro ao excluir imóvel:', error);
+        res.status(500).json({ message: 'Erro ao excluir imóvel' });
+    }
 };
 
 module.exports = { cadastrarImovel, editarImovel, excluirImovel };

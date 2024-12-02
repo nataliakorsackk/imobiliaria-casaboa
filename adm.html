@@ -3,235 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Imóveis</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .imoveis-lista ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .imoveis-lista li {
-            background-color: #f9f9f9;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .imoveis-lista button {
-            background-color: #f44336;
-        }
-
-        .imoveis-lista button:hover {
-            background-color: #d32f2f;
-        }
-    </style>
+    <title>Painel Administrativo</title>
 </head>
 <body>
-  <div class="container">
-      <h1>Cadastro de Imóveis</h1>
+    <h1>Painel Administrativo</h1>
+    <h2>Cadastrar Imóvel</h2>
+    <form id="imovelForm">
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="endereco" name="endereco" required><br><br>
 
-      <!-- Formulário de Adicionar Imóvel -->
-      <div class="form">
-          <h2>Adicionar Imóvel</h2>
-          <input type="text" id="endereco" placeholder="Endereço">
-          <input type="text" id="descricao" placeholder="Descrição">
-          <input type="number" id="num_comodos" placeholder="Número de Cômodos">
-          <button onclick="adicionarImovel()">Adicionar Imóvel</button>
-      </div>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required></textarea><br><br>
 
-      <!-- Lista de Imóveis -->
-      <div class="imoveis-lista">
-          <h2>Lista de Imóveis</h2>
-          <ul id="imoveisLista">
-              <!-- Imóveis serão listados aqui dinamicamente -->
-          </ul>
-      </div>
-  </div>
+        <label for="num_comodos">Número de Cômodos:</label>
+        <input type="number" id="num_comodos" name="num_comodos" required><br><br>
 
-  <script>
-      // Função para adicionar imóvel
-      function adicionarImovel() {
-        const endereco = document.getElementById('endereco').value;
-        const descricao = document.getElementById('descricao').value;
-        const num_comodos = document.getElementById('num_comodos').value;
+        <button type="submit">Cadastrar</button>
+    </form>
 
-        if (endereco && descricao && num_comodos) {
-            const novoImovel = {
-                endereco,
-                descricao,
-                num_comodos
-            };
+    <div id="message"></div>
 
-            const token = localStorage.getItem('token'); // Obtendo o token
+    <script>
+        document.getElementById('imovelForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-            fetch('http://localhost:3001/api/imoveis/cadastrar', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    },
-    body: JSON.stringify(novoImovel)
-})
-.then(response => response.json())
-.then(data => {
-    console.log(data); // Adiciona o log da resposta para depuração
-    if (data.success) {
-        imoveis.push(data.imovel);
-        renderizarLista();
-    } else {
-        alert('Erro ao adicionar imóvel');
-    }
-})
-.catch(error => console.error('Erro ao cadastrar imóvel:', error));
+            const endereco = document.getElementById('endereco').value;
+            const descricao = document.getElementById('descricao').value;
+            const num_comodos = document.getElementById('num_comodos').value;
 
-            document.getElementById('endereco').value = '';
-            document.getElementById('descricao').value = '';
-            document.getElementById('num_comodos').value = '';
-        } else {
-            alert('Por favor, preencha todos os campos.');
-        }
-      }
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('Você precisa estar logado!');
+                    window.location.href = 'login.html'; // Redireciona para o login, caso o token não esteja presente
+                    return;
+                }
 
-      // Função para editar imóvel
-      async function editarImovel(id) {
-          const imovel = imoveis.find(imovel => imovel.id === id);
+                const response = await fetch('http://localhost:3001/api/imoveis/cadastrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ endereco, descricao, num_comodos })
+                });
 
-          if (imovel) {
-              // Preenche os campos do formulário com as informações do imóvel a ser editado
-              document.getElementById('endereco').value = imovel.endereco;
-              document.getElementById('descricao').value = imovel.descricao;
-              document.getElementById('num_comodos').value = imovel.num_comodos;
-
-              // Excluir o imóvel da lista para edição
-              excluirImovel(id);
-
-              // Envia os dados atualizados para a rota de edição
-              try {
-                  const response = await fetch(`http://localhost:3001/api/imoveis/editar/${id}`, {
-                      method: 'PUT',
-                      headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${localStorage.getItem('token')}` // Passando o token de autenticação
-                      },
-                      body: JSON.stringify(imovel)
-                  });
-
-                  const data = await response.json();
-                  if (response.ok) {
-                      alert('Imóvel editado com sucesso!');
-                      renderizarLista(); // Atualiza a lista de imóveis
-                  } else {
-                      alert('Erro ao editar imóvel: ' + data.message);
-                  }
-              } catch (error) {
-                  console.error('Erro ao fazer requisição:', error);
-                  alert('Erro ao se conectar com o servidor.');
-              }
-          }
-      }
-
-      // Função para excluir imóvel
-      async function excluirImovel(id) {
-          try {
-              const response = await fetch(`http://localhost:3001/api/imoveis/excluir/${id}`, {
-                  method: 'DELETE',
-                  headers: {
-                      'Authorization': `Bearer ${localStorage.getItem('token')}` // Passando o token de autenticação
-                  }
-              });
-
-              const data = await response.json();
-              if (response.ok) {
-                  alert('Imóvel excluído com sucesso!');
-                  renderizarLista(); // Atualiza a lista
-              } else {
-                  alert('Erro ao excluir imóvel: ' + data.message);
-              }
-          } catch (error) {
-              console.error('Erro ao fazer requisição:', error);
-              alert('Erro ao se conectar com o servidor.');
-          }
-      }
-
-      // Função para renderizar a lista de imóveis
-      async function renderizarLista() {
-          const lista = document.getElementById('imoveisLista');
-          lista.innerHTML = ''; // Limpa a lista antes de renderizar novamente
-
-          try {
-              const response = await fetch('http://localhost:3001/api/imoveis', {
-                  headers: {
-                      'Authorization': `Bearer ${localStorage.getItem('token')}` // Passando o token de autenticação
-                  }
-              });
-              const imoveis = await response.json();
-
-              imoveis.forEach(imovel => {
-                  const item = document.createElement('li');
-                  item.innerHTML = `
-                      <span>${imovel.endereco} - ${imovel.descricao} (${imovel.num_comodos} Cômodos)</span>
-                      <button onclick="excluirImovel(${imovel.id})">Excluir</button>
-                      <button onclick="editarImovel(${imovel.id})">Editar</button>
-                  `;
-                  lista.appendChild(item);
-              });
-          } catch (error) {
-              console.error('Erro ao carregar imóveis:', error);
-              alert('Erro ao carregar a lista de imóveis.');
-          }
-      }
-
-      // Carregar a lista de imóveis assim que a página carregar
-      window.onload = renderizarLista;
-  </script>
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('message').innerText = data.message;
+                    document.getElementById('imovelForm').reset(); // Limpa o formulário após o sucesso
+                } else {
+                    document.getElementById('message').innerText = 'Erro: ' + data.message;
+                }
+            } catch (error) {
+                document.getElementById('message').innerText = 'Erro na requisição: ' + error.message;
+            }
+        });
+    </script>
 </body>
 </html>

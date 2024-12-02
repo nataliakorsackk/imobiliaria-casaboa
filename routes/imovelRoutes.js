@@ -1,15 +1,30 @@
+// routes/imovelRoutes.js
 const express = require('express');
 const router = express.Router();
-const { verificarToken } = require('../controllers/authController'); // Importa o middleware de verificação de token
-const { cadastrarImovel, editarImovel, excluirImovel } = require('../controllers/imovelController');
+const { Imovel } = require('../models/imovelModels'); // Certifique-se de que o modelo está correto
 
 // Rota para cadastrar imóvel
-router.post('/cadastrar', verificarToken, cadastrarImovel);
+router.post('/cadastrar', async (req, res) => {
+    try {
+        const { endereco, descricao, num_comodos } = req.body;
 
-// Rota para editar imóvel
-router.put('/editar/:id', verificarToken, editarImovel);
+        // Validação dos campos
+        if (!endereco || !descricao || !num_comodos) {
+            return res.status(400).json({ message: 'Todos os campos são obrigatórios!' });
+        }
 
-// Rota para excluir imóvel
-router.delete('/excluir/:id', verificarToken, excluirImovel);
+        // Salvando no banco de dados
+        const novoImovel = await Imovel.create({
+            endereco,
+            descricao,
+            num_comodos,
+        });
+
+        res.status(201).json({ message: 'Imóvel cadastrado com sucesso!', imovel: novoImovel });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erro ao cadastrar imóvel', error });
+    }
+});
 
 module.exports = router;
