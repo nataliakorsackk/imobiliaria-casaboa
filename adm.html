@@ -82,7 +82,7 @@
         .imovel button:hover { 
             background-color: #0056b3; 
         }
-        </style>
+    </style>
 </head>
 <body>
     <h1>Painel Administrativo</h1>
@@ -107,9 +107,10 @@
 
     <h2>Imóveis Cadastrados</h2>
     <div id="imoveisList"></div>
-    
 
     <script>
+        let imovelIdBeingEdited = null;
+
         // Função para carregar imóveis cadastrados
         async function loadImoveis() {
             try {
@@ -131,7 +132,7 @@
             }
         }
 
-        // Função para cadastrar novo imóvel
+        // Função para cadastrar ou editar imóvel
         document.getElementById('imovelForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const endereco = document.getElementById('endereco').value;
@@ -146,16 +147,19 @@
             }
 
             try {
-                const response = await fetch('http://localhost:3001/api/imoveis/cadastrar', {
-                    method: 'POST',
+                const url = imovelIdBeingEdited ? `http://localhost:3001/api/imoveis/editar/${imovelIdBeingEdited}` : 'http://localhost:3001/api/imoveis/cadastrar';
+                const method = imovelIdBeingEdited ? 'PUT' : 'POST';
+                const response = await fetch(url, {
+                    method: method,
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ endereco, descricao, num_comodos, data_nascimento })
                 });
                 const data = await response.json();
                 alert(data.message);
                 loadImoveis(); // Atualiza a lista de imóveis
+                resetForm();
             } catch (error) {
-                console.error('Erro ao cadastrar imóvel:', error);
+                console.error('Erro ao cadastrar/imovel:', error);
             }
         });
 
@@ -180,37 +184,24 @@
 
         // Função para editar imóvel
         async function editarImovel(id) {
-            const imovel = await fetch(`http://localhost:3001/api/imoveis/${id}`);
-            const imovelData = await imovel.json();
+            imovelIdBeingEdited = id;
+            const response = await fetch(`http://localhost:3001/api/imoveis/${id}`);
+            const imovelData = await response.json();
 
             // Preencher o formulário com os dados do imóvel
             document.getElementById('endereco').value = imovelData.endereco;
             document.getElementById('descricao').value = imovelData.descricao;
             document.getElementById('num_comodos').value = imovelData.num_comodos;
             document.getElementById('data_nascimento').value = imovelData.data_nascimento;
+        }
 
-            // Submeter o formulário de edição
-            document.getElementById('imovelForm').addEventListener('submit', async function (e) {
-                e.preventDefault();
-                const endereco = document.getElementById('endereco').value;
-                const descricao = document.getElementById('descricao').value;
-                const num_comodos = document.getElementById('num_comodos').value;
-                const data_nascimento = document.getElementById('data_nascimento').value;
-
-                try {
-                    const response = await fetch(`http://localhost:3001/api/imoveis/editar/${id}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ endereco, descricao, num_comodos, data_nascimento })
-                    });
-
-                    const data = await response.json();
-                    alert(data.message);
-                    loadImoveis(); // Atualiza a lista de imóveis após a edição
-                } catch (error) {
-                    console.error('Erro ao editar imóvel:', error);
-                }
-            });
+        // Função para resetar o formulário
+        function resetForm() {
+            document.getElementById('endereco').value = '';
+            document.getElementById('descricao').value = '';
+            document.getElementById('num_comodos').value = '';
+            document.getElementById('data_nascimento').value = '';
+            imovelIdBeingEdited = null;
         }
 
         // Carregar os imóveis ao carregar a página
