@@ -2,38 +2,27 @@ const Imovel = require('../models/imovelModels');
 
 const cadastrarImovel = async (req, res) => {
     try {
-        // Recebendo os dados do frontend (data de nascimento é a data de construção)
         const { endereco, descricao, num_comodos, data_nascimento } = req.body;
-        
-        // Pegando o ID do usuário logado
-        const id_cliente = req.user.id; 
+        const id_cliente = req.user.id; // ID do usuário logado
 
-        // Verificar se a data de nascimento (data da construção) foi passada corretamente
-        if (!data_nascimento) {
-            return res.status(400).json({ message: 'Data de nascimento (data de construção) é obrigatória!' });
+        if (!endereco || !descricao || !num_comodos || !data_nascimento) {
+            return res.status(400).json({ message: 'Todos os campos são obrigatórios!' });
         }
 
-        // Garantindo que num_comodos seja um número inteiro e maior que 0
+        // Garantir que num_comodos seja um número válido
         if (isNaN(num_comodos) || num_comodos <= 0) {
             return res.status(400).json({ message: 'Número de cômodos inválido!' });
         }
 
-        // Criando o novo imóvel no banco de dados
-        await Imovel.create({ 
-            endereco, 
-            descricao, 
-            num_comodos, 
-            data_nascimento,  // Adicionando a data de nascimento (data de construção)
-            id_cliente 
-        });
+        await Imovel.create({ endereco, descricao, num_comodos, data_nascimento, id_cliente });
 
-        // Enviando resposta de sucesso
         res.status(201).json({ message: 'Imóvel cadastrado com sucesso!' });
     } catch (error) {
         console.error('Erro ao cadastrar imóvel:', error);
         res.status(500).json({ message: 'Erro ao cadastrar imóvel' });
     }
 };
+
 
 
 const editarImovel = async (req, res) => {
