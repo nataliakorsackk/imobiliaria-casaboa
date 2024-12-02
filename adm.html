@@ -31,6 +31,7 @@
 
     <h2>Imóveis Cadastrados</h2>
     <div id="imoveisList"></div>
+    
 
     <script>
         // Função para carregar imóveis cadastrados
@@ -82,6 +83,61 @@
             }
         });
 
+        // Função para excluir imóvel
+        async function excluirImovel(id) {
+            const confirmacao = confirm('Tem certeza que deseja excluir este imóvel?');
+            if (!confirmacao) return;
+
+            try {
+                const response = await fetch(`http://localhost:3001/api/imoveis/excluir/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                const data = await response.json();
+                alert(data.message);
+                loadImoveis(); // Atualiza a lista de imóveis após a exclusão
+            } catch (error) {
+                console.error('Erro ao excluir imóvel:', error);
+            }
+        }
+
+        // Função para editar imóvel
+        async function editarImovel(id) {
+            const imovel = await fetch(`http://localhost:3001/api/imoveis/${id}`);
+            const imovelData = await imovel.json();
+
+            // Preencher o formulário com os dados do imóvel
+            document.getElementById('endereco').value = imovelData.endereco;
+            document.getElementById('descricao').value = imovelData.descricao;
+            document.getElementById('num_comodos').value = imovelData.num_comodos;
+            document.getElementById('data_nascimento').value = imovelData.data_nascimento;
+
+            // Submeter o formulário de edição
+            document.getElementById('imovelForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const endereco = document.getElementById('endereco').value;
+                const descricao = document.getElementById('descricao').value;
+                const num_comodos = document.getElementById('num_comodos').value;
+                const data_nascimento = document.getElementById('data_nascimento').value;
+
+                try {
+                    const response = await fetch(`http://localhost:3001/api/imoveis/editar/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ endereco, descricao, num_comodos, data_nascimento })
+                    });
+
+                    const data = await response.json();
+                    alert(data.message);
+                    loadImoveis(); // Atualiza a lista de imóveis após a edição
+                } catch (error) {
+                    console.error('Erro ao editar imóvel:', error);
+                }
+            });
+        }
+
+        // Carregar os imóveis ao carregar a página
         window.onload = loadImoveis;
     </script>
 </body>
