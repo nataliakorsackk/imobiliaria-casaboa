@@ -4,33 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuário</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" class="css">
 </head>
+<style>
+      header{
+    background-color:#2b305d;
+  }
+  .white{
+    color: white;
+    text-align: center;
+  }
+</style>
 <body>
-    <h1>Cadastro de Usuário</h1>
-    <form id="formCadastro">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" placeholder="Seu nome" required>
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" placeholder="Seu e-mail" required>
+    <div class="container-fluid p-0">
 
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" placeholder="Senha" required>
+        <div class="row">
+            <div class="col-md-12">
+                <header>
+                    <h1 class="white p-3">Cadastro de Usuário</h1>
+                </header>
+            </div>
+        </div>
 
-        <label for="telefone">Telefone:</label>
-        <input type="tel" id="telefone" placeholder="Seu telefone">
-
-        <label for="tipoUsuario">Tipo de Usuário:</label>
-        <select id="tipoUsuario" required>
-            <option value="" disabled selected>Selecione</option>
-            <option value="administrador">Administrador</option>
-            <option value="usuario">Usuário Comum</option>
-        </select>
-
-        <button type="submit">Cadastrar</button>
-    </form>
-
-    <p>Já possui uma conta? <a href="login.html">Clique aqui para fazer login</a></p>
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <ul class="list-group">
+                    <form id="formCadastro">
+                        <li class="list-group-item"><label for="nome">Nome:</label>
+                            <input type="text" class="form-control" id="nome" placeholder="Seu nome" required>
+                        </li>
+                
+                        <li class="list-group-item"><label for="email">E-mail:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Seu e-mail" required>
+                        </li>
+                
+                        <li class="list-group-item"><label for="senha">Senha:</label>
+                            <input type="password" class="form-control" id="senha" placeholder="Senha" required>
+                        </li>
+                
+                        <li class="list-group-item"><label for="telefone">Telefone:</label>
+                            <input type="tel" class="form-control" id="telefone" placeholder="Seu telefone">
+                        </li>
+                
+                        <li class="list-group-item"><label for="tipoUsuario">Tipo de Usuário:</label>
+                            <select id="tipoUsuario" required>
+                                <option value="" disabled selected>Selecione</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="usuario">Usuário Comum</option>
+                            </select>
+                            <button type="submit button" class="btn btn-primary">Cadastrar</button>
+                        </li>
+                    </form>
+                    <li class="list-group-item"><p>Já possui uma conta? <a href="login.html">Clique aqui para fazer login</a></p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <script>
         const API_URL = 'http://localhost:3001/api/cadastrar'; // Alterado para a URL correta

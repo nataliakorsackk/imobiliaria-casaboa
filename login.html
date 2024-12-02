@@ -4,16 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" class="css">
 </head>
 <body>
-    <h1>Login</h1>
-    <form id="loginForm">
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br><br>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-md-12">
+                <header>
+                    <h1 class="white p-3">Login</h1>
+                </header>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <ul class="list-group">
+                    <form id="loginForm">
+                        <li class="list-group-item"><label for="email" class="form-label">E-mail:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Digite seu email" name="email" required><br><br>
+                        </li>
+                        <li class="list-group-item"><label for="senha" class="form-label">Senha:</label>
+                            <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" name="senha" required><br><br>
+                        </li>
+                        <li class="list-group-item"> <button type="submit button" class="btn btn-primary">Login</button></li>
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <div id="message"></div>
 

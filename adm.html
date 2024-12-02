@@ -23,42 +23,76 @@
 
     <div id="message"></div>
 
+    <h2>Imóveis Cadastrados</h2>
+    <div id="imoveisList"></div>
+
     <script>
-        document.getElementById('imovelForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
+document.getElementById('imovelForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-            const endereco = document.getElementById('endereco').value;
-            const descricao = document.getElementById('descricao').value;
-            const num_comodos = document.getElementById('num_comodos').value;
+    const endereco = document.getElementById('endereco').value;
+    const descricao = document.getElementById('descricao').value;
+    const num_comodos = document.getElementById('num_comodos').value;
 
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Você precisa estar logado!');
+            window.location.href = 'login.html'; // Redireciona para o login, caso o token não esteja presente
+            return;
+        }
+
+        const response = await fetch('http://localhost:3001/api/imoveis/cadastrar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ endereco, descricao, num_comodos })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            document.getElementById('message').innerText = data.message;
+            document.getElementById('imovelForm').reset(); // Limpa o formulário após o sucesso
+            loadImoveis(); // Recarrega os imóveis após o cadastro
+        } else {
+            document.getElementById('message').innerText = 'Erro: ' + data.message;
+        }
+    } catch (error) {
+        document.getElementById('message').innerText = 'Erro na requisição: ' + error.message;
+    }
+});
+
+
+        // Função para carregar os imóveis cadastrados
+        async function loadImoveis() {
             try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    alert('Você precisa estar logado!');
-                    window.location.href = 'login.html'; // Redireciona para o login, caso o token não esteja presente
-                    return;
-                }
-
-                const response = await fetch('http://localhost:3001/api/imoveis/cadastrar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ endereco, descricao, num_comodos })
-                });
-
+                const response = await fetch('http://localhost:3001/api/imoveis');
                 const data = await response.json();
-                if (response.ok) {
-                    document.getElementById('message').innerText = data.message;
-                    document.getElementById('imovelForm').reset(); // Limpa o formulário após o sucesso
+                const imoveisList = document.getElementById('imoveisList');
+                
+                if (data.imoveis && data.imoveis.length > 0) {
+                    imoveisList.innerHTML = data.imoveis.map(imovel => `
+                        <div>
+                            <p>Endereço: ${imovel.endereco}</p>
+                            <p>Descrição: ${imovel.descricao}</p>
+                            <p>Número de Cômodos: ${imovel.num_comodos}</p>
+                            <button onclick="editarImovel(${imovel.id})">Editar</button>
+                            <button onclick="excluirImovel(${imovel.id})">Excluir</button>
+                        </div>
+                    `).join('');
                 } else {
-                    document.getElementById('message').innerText = 'Erro: ' + data.message;
+                    imoveisList.innerHTML = 'Nenhum imóvel encontrado.';
                 }
             } catch (error) {
-                document.getElementById('message').innerText = 'Erro na requisição: ' + error.message;
+                console.error('Erro ao carregar imóveis:', error);
+                document.getElementById('imoveisList').innerHTML = 'Erro ao carregar imóveis';
             }
-        });
+        }
+
+        // Chama a função para carregar os imóveis quando a página for carregada
+        window.onload = loadImoveis;
     </script>
 </body>
 </html>
