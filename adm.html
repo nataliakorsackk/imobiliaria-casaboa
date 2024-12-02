@@ -4,19 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f4f4f4; 
+        }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        form { 
+            background-color: #fff; 
+            padding: 20px; 
+            border-radius: 5px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            margin-bottom: 20px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input, textarea { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 3px; 
+        }
+        button { 
+            padding: 10px 20px; 
+            background-color: #28a745; 
+            color: #fff; 
+            border: none; 
+            border-radius: 3px; 
+            cursor: pointer; 
+        }
+        button:hover { 
+            background-color: #218838; 
+        }
+        #message { 
+            margin-top: 20px; 
+            padding: 10px; 
+            border-radius: 5px; 
+            display: none; 
+        }
+        .imovel { 
+            background-color: #fff; 
+            padding: 20px; 
+            border-radius: 5px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            margin-bottom: 10px; 
+        }
+        .imovel button { 
+            margin-top: 10px; 
+            padding: 5px 10px; 
+            background-color: #007bff; 
+            color: #fff; 
+            border: none; 
+            border-radius: 3px; 
+            cursor: pointer; 
+        }
+        .imovel button:hover { 
+            background-color: #0056b3; 
+        }
+    </style>
 </head>
 <body>
     <h1>Painel Administrativo</h1>
     <h2>Cadastrar Imóvel</h2>
     <form id="imovelForm">
         <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" name="endereco" required><br><br>
+        <input type="text" id="endereco" name="endereco" required>
 
         <label for="descricao">Descrição:</label>
-        <textarea id="descricao" name="descricao" required></textarea><br><br>
+        <textarea id="descricao" name="descricao" required></textarea>
 
         <label for="num_comodos">Número de Cômodos:</label>
-        <input type="number" id="num_comodos" name="num_comodos" required><br><br>
+        <input type="number" id="num_comodos" name="num_comodos" required>
+
+        <label for="data_nascimento">Data de Construção:</label>
+        <input type="date" id="data_nascimento" name="data_nascimento" required>
 
         <button type="submit">Cadastrar</button>
     </form>
@@ -27,72 +94,47 @@
     <div id="imoveisList"></div>
 
     <script>
-document.getElementById('imovelForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const endereco = document.getElementById('endereco').value;
-    const descricao = document.getElementById('descricao').value;
-    const num_comodos = document.getElementById('num_comodos').value;
-
-    try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            alert('Você precisa estar logado!');
-            window.location.href = 'login.html'; // Redireciona para o login, caso o token não esteja presente
-            return;
-        }
-
-        const response = await fetch('http://localhost:3001/api/imoveis/cadastrar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ endereco, descricao, num_comodos })
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            document.getElementById('message').innerText = data.message;
-            document.getElementById('imovelForm').reset(); // Limpa o formulário após o sucesso
-            loadImoveis(); // Recarrega os imóveis após o cadastro
-        } else {
-            document.getElementById('message').innerText = 'Erro: ' + data.message;
-        }
-    } catch (error) {
-        document.getElementById('message').innerText = 'Erro na requisição: ' + error.message;
-    }
-});
-
-
-        // Função para carregar os imóveis cadastrados
         async function loadImoveis() {
             try {
                 const response = await fetch('http://localhost:3001/api/imoveis');
                 const data = await response.json();
                 const imoveisList = document.getElementById('imoveisList');
-                
-                if (data.imoveis && data.imoveis.length > 0) {
-                    imoveisList.innerHTML = data.imoveis.map(imovel => `
-                        <div>
-                            <p>Endereço: ${imovel.endereco}</p>
-                            <p>Descrição: ${imovel.descricao}</p>
-                            <p>Número de Cômodos: ${imovel.num_comodos}</p>
-                            
-                            <button onclick="editarImovel(${imovel.id})">Editar</button>
-                            <button onclick="excluirImovel(${imovel.id})">Excluir</button>
-                        </div>
-                    `).join('');
-                } else {
-                    imoveisList.innerHTML = 'Nenhum imóvel encontrado.';
-                }
+                imoveisList.innerHTML = data.imoveis.map(imovel => `
+                    <div class="imovel">
+                        <p><strong>Endereço:</strong> ${imovel.endereco}</p>
+                        <p><strong>Descrição:</strong> ${imovel.descricao}</p>
+                        <p><strong>Número de Cômodos:</strong> ${imovel.num_de_comodos}</p>
+                        <p><strong>Data de Construção:</strong> ${imovel.data_nascimento}</p>
+                        <button onclick="editarImovel(${imovel.id_imovel})">Editar</button>
+                        <button onclick="excluirImovel(${imovel.id_imovel})">Excluir</button>
+                    </div>
+                `).join('');
             } catch (error) {
                 console.error('Erro ao carregar imóveis:', error);
-                document.getElementById('imoveisList').innerHTML = 'Erro ao carregar imóveis';
             }
         }
 
-        // Chama a função para carregar os imóveis quando a página for carregada
+        document.getElementById('imovelForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const endereco = document.getElementById('endereco').value;
+            const descricao = document.getElementById('descricao').value;
+            const num_comodos = document.getElementById('num_comodos').value;
+            const data_nascimento = document.getElementById('data_nascimento').value;
+
+            try {
+                const response = await fetch('http://localhost:3001/api/imoveis/cadastrar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ endereco, descricao, num_comodos, data_nascimento })
+                });
+                const data = await response.json();
+                alert(data.message);
+                loadImoveis();
+            } catch (error) {
+                console.error('Erro ao cadastrar imóvel:', error);
+            }
+        });
+
         window.onload = loadImoveis;
     </script>
 </body>
