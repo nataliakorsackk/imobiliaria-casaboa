@@ -2,11 +2,10 @@
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-    host: 'dpg-ct7718d2ng1s73caq900-a', 
-    user: 'imobiliaria_ks6m_user',     
-    password: 'Oym2VxUexifovpDPAXYyJ7S67TdbFYwL',    
-    database: 'imobiliaria_ks6m',
-    port: 5432
+    host: 'localhost', 
+    user: 'root',     
+    password: '1407vitoria',    
+    database: 'imobiliaria' 
 });
 
 db.connect((err) => {
