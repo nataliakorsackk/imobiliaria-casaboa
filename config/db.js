@@ -2,10 +2,10 @@
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-    host: 'localhost', 
-    user: 'root',     
-    password: '1407vitoria',    
-    database: 'imobiliaria' 
+    host: 'mysql.infocimol.com.br', 
+    user: 'infocimol26',     
+    password: 'laurasmc2024',    
+    database: 'infocimol26' 
 });
 
 db.connect((err) => {
