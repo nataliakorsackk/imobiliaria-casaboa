@@ -1,12 +1,11 @@
 
-
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-    host: 'localhost', // Substitua pelo host do seu banco
-    user: 'root',      // Substitua pelo seu usuário MySQL
-    password: '1407vitoria',      // Substitua pela sua senha MySQL
-    database: 'imobiliaria' // Nome do banco de dados
+    host: 'localhost', 
+    user: 'root',     
+    password: '1407vitoria',    
+    database: 'imobiliaria' 
 });
 
 db.connect((err) => {

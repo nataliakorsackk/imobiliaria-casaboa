@@ -23,6 +23,13 @@ body {
 .nav a:hover{
     color: rgb(0, 17, 255);
 }
+.nav-btn a:hover{
+    cursor: pointer;
+    color: #f8f9fa;
+}
+.imagem-logo{
+    margin-left: 3vw;
+}
 
 .img-casa{
     border-radius: 10px;

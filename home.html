@@ -23,27 +23,31 @@
           <div class="row">
               <div class="col-6">
                   <div class="imagem-logo imagem-logo-expand-sm">
-                      <img width="130vw" src="img/Logo2.png" alt="logo">
-                  </div> 
-            </div>
+                      <img width="130vw" src="img/logo.jpg" alt="logo">
+                  </div>
+              </div>
               <div class="col-6">
                   <ul class="nav justify-content-end">
                       <li class="nav-item">
-                        <a class="nav-link active"  aria-current="page" href="home.html">Home</a>
+                          <a class="nav-link active" aria-current="page" href="home.html">Home</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="propriedades.html">Propriedades</a>
+                          <a class="nav-link" href="propriedades.html">Propriedades</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="sobrenos.html">Sobre Nós</a>
+                          <a class="nav-link" href="sobrenos.html">Sobre Nós</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="contato.html">Contato</a>
+                          <a class="nav-link" href="contato.html">Contato</a>
                       </li>
-                    </ul>
+                      <li class="nav-btn">
+                        <a class="btn btn-outline-secondary" href="login.html">Login</a>
+                      </li>
+                  </ul>
               </div>
           </div>
       </div>
+      
   </header>
   
   <div class="container">
@@ -95,57 +99,28 @@
     </figcaption>
   </figure>
 
-  <hr>
-
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-     <div class="col-md-6">
-        <i class="bi bi-sliders" style="font-size: 2rem; color: rgb(5,12,105); cursor: pointer;" data-bs-toggle="modal" data-bs-target="#filtroModal"></i>
-     </div>
+      <div class="col-12 m-3">
+      </div>
     </div>
   </div>
 
-  <div class="modal fade" id="filtroModal" tabindex="-1" aria-labelledby="filtroModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="filtroModalLabel">Filtrar Propriedades</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <!-- Filtro por tamanho -->
-            <div class="mb-3">
-              <label for="tamanhoCasa" class="form-label">Tamanho da Casa (m²)</label>
-              <input type="number" class="form-control" id="tamanhoCasa" placeholder="Ex: 120">
-            </div>
-            <!-- Filtro por número de quartos -->
-            <div class="mb-3">
-              <label for="numQuartos" class="form-label">Número de Quartos</label>
-              <select class="form-select" id="numQuartos">
-                <option value="" selected>Selecione</option>
-                <option value="1">1 Quarto</option>
-                <option value="2">2 Quartos</option>
-                <option value="3">3 Quartos</option>
-                <option value="4+">4 ou mais Quartos</option>
-              </select>
-            </div>
-            <!-- Filtro por tipo de casa -->
-            <div class="mb-3">
-              <label for="tipoCasa" class="form-label">Tipo de Propriedade</label>
-              <select class="form-select" id="tipoCasa">
-                <option value="" selected>Selecione</option>
-                <option value="apartamento">Apartamento</option>
-                <option value="sobrado">Sobrado</option>
-                <option value="casa">Casa</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-primary" id="apply-filters-btn">Aplicar Filtros</button>
-        </div>
+  <hr>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 m-3">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col text text-center">
+        <blockquote class="blockquote">
+          <b><p>Destaques</p></b>
+        </blockquote>
       </div>
     </div>
   </div>
@@ -153,228 +128,72 @@
   <div class="container">
     <div class="row">
         <div class="col">
-            <div id="properties-list" class="row row-cols-1 row-cols-md-3 g-4">
-                <!--Os cartões das propriedades serão gerados dinamicamente via JavaScript-->
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="img/casa.jpg" class="card-img-top" alt="casa">
+                        <div class="card-body">
+                            <h5 class="card-title">R$1.000.000,00</h5>
+                            <p class="card-text">Rua das Flores, 123, Jardim das Palmeiras, São Paulo, SP, 01234-567</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"></li>
+                                <li>3 Quartos</li>
+                                <li>4 Banheiros</li>
+                                <li>1 Cozinha</li>
+                                <li>2 Salas</li>
+                                +Piscina e Churrasqueira
+                                <li class="list-group-item"></li>
+                                <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='propriedades.html'">Ver mais</button>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="img/casa2.jpeg" class="card-img-top" alt="apartamento">
+                        <div class="card-body">
+                            <h5 class="card-title">R$990.000,00</h5>
+                            <p class="card-text">Avenida do Sol, 456, Bairro Verde, Rio de Janeiro, RJ, 98765-432</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"></li>
+                                <li>3 Quartos</li>
+                                <li>3 Banheiros</li>
+                                <li>1 Cozinha</li>
+                                <li>1 Salas</li>
+                                +Piscina e Churrasqueira
+                                <li class="list-group-item"></li>
+                                <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='propriedades.html'">Ver mais</button>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="img/casa3.jpg" class="card-img-top" alt="sobrado">
+                        <div class="card-body">
+                            <h5 class="card-title">R$1.570.000,00</h5>
+                            <p class="card-text">Travessa do Mar, 789, Centro Histórico, Salvador, BA, 40000-000</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"></li>
+                                <li>4 Quartos</li>
+                                <li>6 Banheiros</li>
+                                <li>2 Cozinha</li>
+                                <li>2 Salas</li>
+                                +Piscina, Churrasqueira e Cinema
+                                <li class="list-group-item"></li>
+                                <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='propriedades.html'">Ver mais</button>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!--  SCRIPT DOS FILTROS  -->
-<script>
-  const propriedades = [
-      //Casa 1
-      {
-          tipo: "casa",
-          tamanho: 200,
-          quartos: 4,
-          preco: "R$1.000.000,00",
-          endereco: "Rua das Flores, 123, São Paulo, SP",
-          descricao: "Piscina e churrasqueira",
-          imagem: "img/casa.jpg",
-      },
-      //Casa 2
-      {
-          tipo: "apartamento",
-          tamanho: 80,
-          quartos: 2,
-          preco: "R$500.000,00",
-          endereco: "Av. Paulista, 456, São Paulo, SP",
-          descricao: "Vista para a cidade",
-          imagem: "img/casa2.jpeg",
-      },
-      //Casa 3
-      {
-      tipo: "sobrado",
-      tamanho: 100,
-      quartos: 3,
-      preco: "R$500.000,00",
-      endereco: "Av. Paulista, 456, São Paulo, SP",
-      descricao: "Piscina, churrasqueira e cinema",
-      imagem: "img/casa3.jpg",
-  },
-  //Casa 4
-  {
-      tipo: "sobrado",
-      tamanho: 100,
-      quartos: 2,
-      preco: "R$850.000,00",
-      endereco: "Rua dos Lírios, 101, Jardim das Hortênsias, Porto Alegre, RS, 12345-678",
-      descricao: "Piscina e churrasqueira",
-      imagem: "img/casa4.jpeg"
-  },
-  //Casa 5
-  {
-      tipo: "apartamento",
-      tamanho: 110,
-      quartos: 4,
-      preco: "R$1.200.000,00",
-      endereco: "Rua do Sol, 99, Vila das Árvores, Curitiba, PR, 54321-987",
-      descricao: "Piscina e Jardim",
-      imagem: "img/casa5.jpeg"
-  },
-  //Casa 6
-  {
-      tipo: "casa",
-      tamanho: 100,
-      quartos: 3,
-      preco: "R$950.000,00",
-      endereco: "Avenida Brasil, 2000, Bela Vista, Fortaleza, CE, 67890-123",
-      descricao: "Piscina e churrasqueira",
-      imagem: "img/casa6.webp"
-  },
-  //Casa 7
-  {
-      tipo: "casa",
-      tamanho: 150,
-      quartos: 5,
-      preco: "R$1.450.000,00",
-      endereco: "Rua das Margaridas, 305, Centro, Belo Horizonte, MG, 11223-445",
-      descricao: "Piscina e Academia",
-      imagem: "img/casa7.webp"
-  },
-  //Casa 8
-  {
-      tipo: "apartamento",
-      tamanho: 150,
-      quartos: 6,
-      preco: "R$2.000.000,00",
-      endereco: "Rua das Palmeiras, 500, Praia do Leste, Recife, PE, 98765-432",
-      descricao: "Piscina, Churrasqueira e Sauna",
-      imagem: "img/casa8.jpg" 
-  },
-  //Casa 9
-  {
-      tipo: "sobrado",
-      tamanho: 100,
-      quartos: 4,
-      preco: "R$1.800.000,00",
-      endereco: "Avenida das Acácias, 123, Vila Nova, Natal, RN, 40000-111",
-      descricao: "Piscina, Churrasqueira e Sauna",
-      imagem: "img/casa9.jpg" 
-  }
-  ];
-
-  const applyFilters = () => {
-      const sizeFilter = document.getElementById("tamanhoCasa").value;
-      const roomsFilter = document.getElementById("numQuartos").value;
-      const typeFilter = document.getElementById("tipoCasa").value;
-
-      const filteredProperties = propriedades.filter(property => {
-          const matchesType = !typeFilter || property.tipo === typeFilter;
-          const matchesRooms =
-              !roomsFilter ||
-              (roomsFilter === "4+" ? property.quartos >= 4 : property.quartos == roomsFilter);
-          const matchesSize = !sizeFilter || property.tamanho >= sizeFilter;
-
-          return matchesType && matchesRooms && matchesSize;
-      });
-
-      renderProperties(filteredProperties);
-  };
-
-  const renderProperties = (propertiesToRender = propriedades) => {
-      const propertyList = document.getElementById("properties-list");
-
-      propertyList.innerHTML = "";
-
-      propertiesToRender.forEach(property => {
-          propertyList.innerHTML += `
-              <div class="col">
-                  <div class="card h-100">
-                      <img src="${property.imagem}" class="card-img-top" alt="${property.tipo}">
-                      <div class="card-body">
-                          <h5 class="card-title">${property.preco}</h5>
-                          <p class="card-text">${property.endereco}</p>
-                          <ul class="list-group list-group-flush">
-                              <li>${property.quartos} Quarto(s)</li>
-                              <li>${property.tamanho} m²</li>
-                              <li>${property.descricao}</li>
-                          </ul>
-                          <button type="button" class="btn btn-outline-secondary">Ver mais</button>
-                      </div>
-                  </div>
-              </div>
-          `;
-      });
-  };
-
-  document.getElementById("apply-filters-btn").addEventListener("click", applyFilters);
-  renderProperties();
-</script>
-
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 m-4">
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img src="img/casa.jpg" class="card-img-top" alt="casa">
-              <div class="card-body">
-                <h5 class="card-title">R$1.000.000,00</h5>
-                <p class="card-text">Rua das Flores, 123, Jardim das Palmeiras, São Paulo, SP, 01234-567</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"></li>
-                  
-                    <li>3 Quartos</li> 
-                    <li>4 Banheiros</li>
-                    <li>1 Cozinha</li>
-                    <li>2 Salas </li>
-                    +Piscina e Churrasqueira
-                    <li class="list-group-item"></li>
-                    <button type="button" class="btn btn-outline-secondary">Ver mais</button>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="img/casa2.jpeg" class="card-img-top" alt="apartamento">
-              <div class="card-body">
-                <h5 class="card-title">R$990.000,00</h5>
-                <p class="card-text">Avenida do Sol, 456, Bairro Verde, Rio de Janeiro, RJ, 98765-432</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"></li>
-                  
-                    <li>3 Quartos</li> 
-                    <li>3 Banheiros</li>
-                    <li>1 Cozinha</li>
-                    <li>1 Salas </li>
-                    +Piscina e Churrasqueira
-                    <li class="list-group-item"></li>
-                    <button type="button" class="btn btn-outline-secondary">Ver mais</button>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="img/casa3.jpg" class="card-img-top" alt="sobrado">
-              <div class="card-body">
-                <h5 class="card-title">R$1.570.000,00</h5>
-                <p class="card-text">Travessa do Mar, 789, Centro Histórico, Salvador, BA, 40000-000</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"></li>
-                  
-                    <li>4 Quartos</li> 
-                    <li>6 Banheiros</li>  
-                    <li>2 Cozinha</li>                                                                                                                                                       
-                    <li>2 Salas </li>
-                    +Piscina, Churrasqueira e Cinema
-                    <li class="list-group-item"></li>
-                    <button type="button" class="btn btn-outline-secondary">Ver mais</button>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -385,60 +204,37 @@
       </div>
     </div>
   </div>
-
-
-  <div class="container text-center mt-5">
-    <div class="row">
-      <div class="col">
-        <a href="propriedades.html" class="btn btn-outline-secondary">Confira todas as nossas propriedades</a>
-    </div>
-  </div>
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 m-4">
-      </div>
-    </div>
-  </div>
+</div>
  
-  <div class="container-fluid p-0">
-    <footer class="bg-dark text-white pt-4">
-      <div class="row">
-        <div class="col-md-4 mb-4">
+<footer class="container-fluid bg-dark text-white py-4">
+  <div class="row">
+      <div class="col-md-4 mb-4">
           <h5>Sobre</h5>
-          <p>
-            Somos uma imobiliaria focada em encontrar a sua casa dos sonhos, 
-            entre em contato e realize seus sonhos conosco!
-          </p>
-        </div>
-
-        <div class="col-md-4 mb-4">
+          <p>Somos uma imobiliária focada em encontrar a sua casa dos sonhos. Entre em contato e realize seus sonhos conosco!</p>
+      </div>
+      <div class="col-md-4 mb-4">
           <h5>Links Rápidos</h5>
           <ul class="list-unstyled">
-            <li><a href="home.html" class="text-white text-decoration-none">Home</a></li>
-            <li><a href="propriedades.html" class="text-white text-decoration-none">Propriedades</a></li>
-            <li><a href="sobrenos.html" class="text-white text-decoration-none">Sobre nós</a></li>
-            <li><a href="contato.html" class="text-white text-decoration-none">Contato</a></li>
+              <li><a href="home.html" class="text-white text-decoration-none">Home</a></li>
+              <li><a href="propriedades.html" class="text-white text-decoration-none">Propriedades</a></li>
+              <li><a href="sobrenos.html" class="text-white text-decoration-none">Sobre Nós</a></li>
+              <li><a href="contato.html" class="text-white text-decoration-none">Contato</a></li>
           </ul>
-        </div>
-
-        <div class="col-md-4 mb-4">
+      </div>
+      <div class="col-md-4 mb-4">
           <h5>Contato</h5>
           <ul class="list-unstyled">
-            <li><i class="bi bi-geo-alt-fill"></i> Taquara, RS</li>
-            <li><i class="bi bi-telephone-fill"></i> +55 (51) 99415-3084</li>
-            <li><i class="bi bi-envelope-fill"></i> imobiliaria@casa.boa.br</li>
+              <li></i> Taquara, RS</li>
+              <li></i> +55 (51) 99415-3084</li>
+              <li></i> imobiliaria@casa.boa.br</li>
           </ul>
-        </div>
       </div>
-      <div class="text-center py-3 border-top">
-        <p class="mb-0">© 2024 Casa Boa. Todos os direitos reservados.</p>
-      </div>
-    </footer>
-</div>
-
-
+  </div>
+  <div class="text-center border-top pt-3">
+      <p class="mb-0">© 2024 Casa Boa. Todos os direitos reservados.</p>
+  </div>
+</footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-<!--<script src="./js/filtro.js"></script>-->
+
 </html>

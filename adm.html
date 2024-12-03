@@ -4,109 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo</title>
-    <style> 
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 20px; 
-            background-color: #f4f4f4; 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
         }
-    
-        h1 { 
-            color: #333; 
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: block;
         }
-    
-        h2 { 
-            color: #666; 
+
+        .container {
+            width: 60%; /* Container menor */
+            margin: 0 auto;
+            padding: 2rem;
+            border: 2px solid #ddd; /* Borda visível */
+            border-radius: 10px; /* Bordas arredondadas */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+            background-color: #fff; /* Cor de fundo branca */
         }
-    
-        form { 
-            background-color: #fff; 
-            padding: 20px; 
-            border-radius: 5px; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
-            margin-bottom: 20px; 
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
-    
-        label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: bold; 
+
+        .form-control, .btn {
+            border-radius: 5px;
+            padding: 12px;
+            font-size: 14px;
         }
-    
-        input, textarea { 
-            width: 100%; 
-            padding: 10px; 
-            margin-bottom: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 3px; 
+
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            background-color: transparent;
         }
-    
-        button { 
-            padding: 10px 20px; 
-            background-color: #28a745; 
-            color: #fff; 
-            border: none; 
-            border-radius: 3px; 
-            cursor: pointer; 
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
         }
-    
-        button:hover { 
-            background-color: #218838; 
+
+        .imovel {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
         }
-    
-        #message { 
-            margin-top: 20px; 
-            padding: 10px; 
-            border-radius: 5px; 
-            display: none; 
+
+        .imovel button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
         }
-    
-        .imovel { 
-            background-color: #fff; 
-            padding: 20px; 
-            border-radius: 5px; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
-            margin-bottom: 10px; 
+
+        .imovel button:hover {
+            background-color: #0056b3;
         }
-    
-        .imovel button { 
-            margin-top: 10px; 
-            padding: 5px 10px; 
-            background-color: #007bff; 
-            color: #fff; 
-            border: none; 
-            border-radius: 3px; 
-            cursor: pointer; 
+
+        .back-arrow {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: rgb(5, 12, 105);
+            cursor: pointer;
         }
-    
-        .imovel button:hover { 
-            background-color: #0056b3; 
+
+        .back-arrow:hover {
+            color: #003366;
+        }
+
+        .text {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Painel Administrativo</h1>
-    <h2>Cadastrar Imóvel</h2>
-    <form id="imovelForm">
-        <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" name="endereco" required>
 
-        <label for="descricao">Descrição:</label>
-        <textarea id="descricao" name="descricao" required></textarea>
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-md-12">
+                <header class="text-center p-3">
+                    <a href="login.html">
+                        <i class="bi bi-arrow-left back-arrow"></i>
+                    </a>
+                    <img src="img/logo.jpg" alt="Logo" class="logo">
+                    <h3 class="text text-center">Painel Administrativo</h3>
+                </header>
+            </div>
+        </div>
+<div class="container">
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <h3 class="text">Cadastrar Imóvel</h3>
+                <form id="imovelForm">
+                    <div class="mb-3">
+                        <label for="endereco" class="form-label">Endereço:</label>
+                        <input type="text" class="form-control" id="endereco" name="endereco" required>
+                    </div>
 
-        <label for="num_comodos">Número de Cômodos:</label>
-        <input type="number" id="num_comodos" name="num_comodos" required>
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição:</label>
+                        <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+                    </div>
 
-        <label for="data_nascimento">Data de Construção:</label>
-        <input type="date" id="data_nascimento" name="data_nascimento" required>
+                    <div class="mb-3">
+                        <label for="num_comodos" class="form-label">Número de Cômodos:</label>
+                        <input type="number" class="form-control" id="num_comodos" name="num_comodos" required>
+                    </div>
 
-        <button type="submit">Cadastrar</button>
-    </form>
+                    <div class="mb-3">
+                        <label for="data_nascimento" class="form-label">Data de Construção:</label>
+                        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" required>
+                    </div>
 
-    <div id="message"></div>
+                    <button type="submit" class="btn btn-outline-secondary">Cadastrar</button>
+                </form>
 
-    <h2>Imóveis Cadastrados</h2>
-    <div id="imoveisList"></div>
+                <div id="message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-12 m-3">
+      </div>
+    </div>
+  </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text text-center">Imóveis Cadastrados</h3>
+                <div id="imoveisList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 m-3">
+          </div>
+        </div>
+      </div>
+
 
     <script>
         let imovelIdBeingEdited = null;
@@ -207,5 +264,6 @@
         // Carregar os imóveis ao carregar a página
         window.onload = loadImoveis;
     </script>
+
 </body>
 </html>
