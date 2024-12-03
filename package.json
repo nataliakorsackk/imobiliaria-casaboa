@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "http-server ./ -p 3000"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6"
+    "@types/bcryptjs": "^2.4.6",
+    "http-server": "^14.1.1"
   }
 }
